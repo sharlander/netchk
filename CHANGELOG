@@ -1,3 +1,21 @@
+*****************************************************************************
+
+Planned changes:
+-------
+- add network classes support
+  e.g. class B: 10.0.0.1 12.254
+  e.g. class B: 10.0.0.1 254/16
+  e.g. class B: 10.0.0.1 -e 10.0.12.254
+     -e | --end, specifies end for large networks
+
+- remove system(ping) command
+
+*****************************************************************************
+
+Version: 1.3.2
+-------
+add configure script and makefile
+
 Version: 1.3.1
 -------
 add option for left and right side ouput

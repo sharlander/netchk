@@ -1,0 +1,76 @@
+#!/bin/sh
+
+PATH=/bin:/usr/bin
+
+echo Checking dependencies::
+echo "";
+
+echo looking for make:;
+which make > /dev/null;
+if [ $? -ne 0 ]
+then
+  echo make not found;
+  exit 1;
+else
+  echo found ... $(which make);
+fi
+
+echo looking for man:;
+which man > /dev/null;
+if [ $? -ne 0 ]
+then
+  echo man not found;
+  exit 2;
+else
+  echo found ... $(which man);
+fi
+
+echo looking for ping:;
+which ping > /dev/null;
+if [ $? -ne 0 ]
+then
+  echo ping not found;
+  exit 3;
+else
+  echo found ... $(which ping);
+fi
+
+echo looking for gcc:;
+which gcc > /dev/null;
+if [ $? -ne 0 ]
+then
+  echo gcc not found;
+  exit 4;
+else
+  echo found ... $(which gcc);
+fi
+
+echo looking for rm:;
+which rm > /dev/null;
+if [ $? -ne 0 ]
+then
+  echo rm not found;
+  exit 5;
+else
+  echo found ... $(which rm);
+fi
+
+echo looking for install:;
+which install > /dev/null;
+if [ $? -ne 0 ]
+then
+  echo install not found;
+  exit 6;
+else
+  echo found ... $(which install);
+fi
+
+echo looking for gzip:;
+which gzip > /dev/null;
+if [ $? -ne 0 ]
+then
+  echo gzip not found;
+  exit 7;
+else
+  echo found ... $(which gzip);
+fi
