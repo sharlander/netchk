@@ -59,8 +59,12 @@ int evaluation_ping(int re, char *givenip, int optioncso, char *filename, int op
     fprintf(outputfile, "{\"%s\":{\"name\":\"ping\",\"value\":\"%s\"}", givenip, status);
   else if (optionnocolor == 1)
     fprintf(outputfile, "%16s%8s", givenip, ok);
-  else
-    fprintf(outputfile, "%16s\033[32;1m%8s\033[0m", givenip, status);
+  else {
+    if (strcmp(status, ok) == 0)
+      fprintf(outputfile, "%16s\033[32;1m%8s\033[0m", givenip, status);
+    else
+      fprintf(outputfile, "%16s\033[31;1m%8s\033[0m", givenip, status);
+  }
 
   if (strcmp(filename, "stdout") != 0)
     fclose(outputfile);

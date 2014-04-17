@@ -11,7 +11,7 @@ void description()
 void version()
 {
   printf("\n"
-         "The program version is 1.2.9\n"
+         "The program version is 1.3.0\n"
          "\n");
 }
 
