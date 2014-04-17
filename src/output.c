@@ -7,7 +7,7 @@ int headline(int optionport, int portnumber, int optionw, int optionname)
     {
         if( optionw != 1)
         printf("\n");
-        printf("IP:\t\tping:\t\tip-lookup:\t\t\t\t\tname-lookup:\t\tport %d:"
+        printf("IP:\t\tping:\t\tip-lookup:\t\t\t\t\tname-lookup:\t\tport %d:\n"
                , portnumber);
         if (optionw != 1)
         printf("\n\n");
@@ -15,14 +15,14 @@ int headline(int optionport, int portnumber, int optionw, int optionname)
     else if ((optionport != 1) && (optionname == 1)) {
        if( optionw != 1)
        printf("\n");
-       printf("IP:\t\tping:\t\tip-lookup:\t\t\t\t\tnamelookup:");
+       printf("IP:\t\tping:\t\tip-lookup:\t\t\t\t\tnamelookup:\n");
        if( optionw != 1)
        printf("\n\n");
     }
     else if ((optionport == 1) && (optionname != 1)) {
        if( optionw != 1)
        printf("\n");
-       printf("IP:\t\tping:\t\tip-lookup:\t\t\t\t\tport %d:", portnumber);
+       printf("IP:\t\tping:\t\tip-lookup:\t\t\t\t\tport %d:\n", portnumber);
        if( optionw != 1)
        printf("\n\n");
     }
@@ -30,28 +30,40 @@ int headline(int optionport, int portnumber, int optionw, int optionname)
     {
        if( optionw != 1)
        printf("\n");
-       printf("IP:\t\tping:\t\tip-lookup:");
+       printf("IP:\t\tping:\t\tip-lookup:\n");
        if( optionw != 1)
        printf("\n\n");
     }
     return 0;
 }
 
-int evaluation_ping(int re, char *givenip)
+int evaluation_ping(int re, char *givenip, int optioncso)
 {
   if (re == 0)
-    printf("\n%s\t\033[32;1mok\033[0m\t\t", givenip);
+    if (optioncso==1)
+      printf("%s;ok;", givenip);
+    else
+      printf("%s\t\033[32;1mok\033[0m\t\t", givenip);
   else
-    printf("\n%s\t\033[31;1mfailed\033[0m\t\t", givenip);
+    if (optioncso==1)
+      printf("%s;failed;", givenip);
+    else
+      printf("%s\t\033[31;1mfailed\033[0m\t\t", givenip);
 
   return 0;
 }
 
-int evaluation_port(int givenre)
+int evaluation_port(int givenre, int optioncso)
 {
   if (givenre == 0)
-    printf("\033[32;1mok\033[0m");
+    if (optioncso==1)
+      printf("ok;");
+    else
+      printf("\033[32;1mok\033[0m");
   else
+    if (optioncso==1)
+    printf("failed;");
+    else
     printf("\033[31;1mfailed\033[0m");
 
   return 0;

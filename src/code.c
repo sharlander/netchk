@@ -10,7 +10,8 @@ int main( int argv, char *argc[] )
     int pposition=0, wposition=0;
     int poscounter = 0;
     int position[argv];
-    int optionname=5,optionnamecounter=0, nameposition;
+    int optionname=5, optionnamecounter=0, nameposition;
+    int optioncso=5, optioncsocounter=0, csoposition;
 
 
     for (t=1; t<argv; t++) {
@@ -37,31 +38,49 @@ int main( int argv, char *argc[] )
             nameposition = t;
         }
 
+        if (strcmp(argc[t], "--commaseparated") == 0) {
+          optioncso = 1;
+          optioncsocounter += 1;
+          csoposition = t;
+          maxarg +=1;
+        }
+
         if ( (argc[t][0] == '-') && (argc[t][1] != '-') )
           for (u=0; u<strlen(argc[t]);u++) {
             if (argc[t][u] == 'w') {
               optionw = 1;
               optionwcounter += 1;
               wposition = t;
-              maxarg += 1;
+              if (u==1)
+                maxarg += 1;
             }
             if (argc[t][u] == 'p') {
               optionport = 1;
               optionpcounter += 1;
               pposition = t;
-              maxarg += 2;
+              if (u==1)
+                maxarg += 1;
+              maxarg += 1;
               portnumber = atoi(argc[t+1]);
             }
             if (argc[t][u] == 'n') {
               optionname = 1;
               optionnamecounter += 1;
-              maxarg += 1;
+              if (u==1)
+                maxarg += 1;
               nameposition = t;
+            }
+            if (argc[t][u] == 'c') {
+              optioncso = 1;
+              optioncsocounter += 1;
+              csoposition = t;
+              if (u==1)
+                maxarg +=1;
             }
           }
    }
 
-    if ( (optionwcounter > 1) || (optionpcounter > 1) || (optionnamecounter > 1) ) {
+    if ( (optionwcounter > 1) || (optionpcounter > 1) || (optionnamecounter > 1) || ( optioncsocounter > 1) ) {
         errdupopt();
         return 1;
     }
@@ -83,6 +102,8 @@ int main( int argv, char *argc[] )
         else if (wposition == t)
             position[t] = 0;
         else if (nameposition == t)
+            position[t] = 0;
+        else if (csoposition == t)
             position[t] = 0;
         else
             position[t] = 1;
@@ -191,7 +212,8 @@ int main( int argv, char *argc[] )
     }
   }
 
-  headline(optionport, portnumber, optionw, optionname);
+  if (optioncso != 1)
+    headline(optionport, portnumber, optionw, optionname);
 
   for ( i=istart;i<=iend;i++ )
   {
@@ -199,19 +221,21 @@ int main( int argv, char *argc[] )
     strcpy(runningip, "");
     sprintf(runningip, "%d.%d.%d.%d", addr[1], addr[2], addr[3], i);
 
-    evaluation_ping(re, runningip);
-    lookup( runningip, optionname);
+    evaluation_ping(re, runningip, optioncso);
+    lookup( runningip, optionname, optioncso);
     if (optionport == 1) {
       waitpid(ch_pid[i], &ch_return[i], WUNTRACED);
-      evaluation_port(ch_return[i]/256);
+      evaluation_port(ch_return[i]/256, optioncso);
     }
+    printf("\n");
     if ( optionw != 1)
     printf("\n");
   }
 
   endsec = time( NULL );
 
-  end((endsec - startsec), (iend - istart + 1), optionw);
+  if (optioncso != 1)
+    end((endsec - startsec), (iend - istart + 1), optionw);
 
   return 0;
 
