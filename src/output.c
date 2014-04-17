@@ -1,18 +1,32 @@
 #include "inhead.h"
 
 
-int headline(int givenopt, int portnumber, int optionw)
+int headline(int optionport, int portnumber, int optionw, int optionname)
 {
-    if (givenopt == 1 )
+    if ((optionport == 1) && (optionname == 1))
     {
         if( optionw != 1)
         printf("\n");
-        printf("IP:\t\tping:\t\tip-lookup:\t\t\t\t\tport %d:"
+        printf("IP:\t\tping:\t\tip-lookup:\t\t\t\t\tname-lookup:\t\tport %d:"
                , portnumber);
-        if( optionw != 1)
+        if (optionw != 1)
         printf("\n\n");
     }
-      else
+    else if ((optionport != 1) && (optionname == 1)) {
+       if( optionw != 1)
+       printf("\n");
+       printf("IP:\t\tping:\t\tip-lookup:\t\t\t\t\tnamelookup:");
+       if( optionw != 1)
+       printf("\n\n");
+    }
+    else if ((optionport == 1) && (optionname != 1)) {
+       if( optionw != 1)
+       printf("\n");
+       printf("IP:\t\tping:\t\tip-lookup:\t\t\t\t\tport %d:", portnumber);
+       if( optionw != 1)
+       printf("\n\n");
+    }
+    else
     {
        if( optionw != 1)
        printf("\n");

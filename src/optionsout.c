@@ -11,7 +11,7 @@ int description()
 int version()
 {
     printf("\n"
-           "The Program version is 1.2.0\n"
+           "The Program version is 1.2.1\n"
            "\n");
     return 0;
 }
@@ -40,6 +40,7 @@ int help()
            "-v\t\tShow's programm version\n"
            "-p\t\tConnects to a specific port\n"
            "-w\t\tOutput is without the blank lines\n"
+           "-n\t\tNamelookup is compared with ip\n"
            "\n"
            "Long options:\n"
            "\n"
@@ -47,6 +48,7 @@ int help()
            "--version\tShow's programm version\n"
            "--port\t\tConnects to specific port\n"
            "--without-blank\tOutput is without the blank lines\n"
+           "--namelookup\nNamelookup is compared with ip\n"
            "\n"
            );
     return 0;

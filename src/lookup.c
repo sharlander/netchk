@@ -1,6 +1,6 @@
 # include "inhead.h"
 
-int lookup(char *givenip)
+int lookup(char *givenip, int optionname)
 {
   struct sockaddr_in sa;
   sa.sin_family = AF_INET;
@@ -13,11 +13,22 @@ int lookup(char *givenip)
   if ((strcmp(node, givenip) == 0 ) || (strcmp(node, "0.0.0.0") == 0 ))
   {
     printf("\033[31;1mfailed\33[0m\t\t\t\t\t\t");
+
+    if (optionname == 1)
+      printf("\033[31;1mno name for lookup\033[0m\t");
+
     return 1;
   }
   else
   {
-  printf("%s\t\t", node);
-  return 0;
+    printf("%s\t\t", node);
+    if (optionname == 1) {
+      namelookup(node);
+      if (strcmp(node, givenip)==0)
+        printf("\033[32;1m%s\033[0m\t\t", node);
+      else
+        printf("\033[31;1m%s\33[0m\t\t", node);
+    }
+    return 0;
   }
 }

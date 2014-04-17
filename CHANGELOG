@@ -1,7 +1,13 @@
+Version: 1.2.1
+-------
+added the namelookup option
+the namelookup is compared with the ip lookup
+also improved the option handling by checking the short options in a seperated loop
+
 Version: 1.2.0
 -------
 speed increaded by portconnection
-now forking the portconnect to a proccess
+now forking the portconnect to a own proccess
 
 Version: 1.1.9
 -------
