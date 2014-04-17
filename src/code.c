@@ -16,6 +16,7 @@ int main (int argc, char *argv[])
     int optionf=5, optionfcounter=0, fposition;
     int optionnocolor=5, optionnocolorcounter=0, nocolorposition;
     int optionjson=5, optionjsoncounter=0, jsonposition;
+    int optionleft=5, optionleftcounter=0, leftposition;
 
     char *filename = {"stdout\0"};
 
@@ -69,6 +70,13 @@ int main (int argc, char *argv[])
           optionjson = 1;
           optionjsoncounter += 1;
           jsonposition = t;
+          maxarg +=1;
+        }
+
+        if (strcmp(argv[t], "--left") == 0) {
+          optionleft = 1;
+          optionleftcounter += 1;
+          leftposition = t;
           maxarg +=1;
         }
 
@@ -127,6 +135,13 @@ int main (int argc, char *argv[])
               if (u==1)
                 maxarg +=1;
             }
+            if (argv[t][u] == 'l') {
+              optionleft = 1;
+              optionleftcounter += 1;
+              leftposition = t;
+              if (u==1)
+                maxarg +=1;
+            }
           }
    }
 
@@ -137,7 +152,8 @@ int main (int argc, char *argv[])
         (optioncsocounter > 1) ||
         (optionfcounter > 1) ||
         (optionnocolorcounter > 1) ||
-        (optionjsoncounter > 1)
+        (optionjsoncounter > 1) ||
+        (optionleftcounter > 1)
        )
     {
         errdupopt();
@@ -169,6 +185,8 @@ int main (int argc, char *argv[])
         else if (nocolorposition == t)
             position[t] = 0;
         else if (jsonposition == t)
+            position[t] = 0;
+        else if (leftposition == t)
             position[t] = 0;
         else
             position[t] = 1;
@@ -289,7 +307,7 @@ int main (int argc, char *argv[])
   }
 
   if ((optioncso != 1) && (optionjson != 1))
-    headline(optionport, portnumber, optionw, optionname, filename);
+    headline(optionport, portnumber, optionw, optionname, filename, optionleft);
 
   if (optionjson == 1) {
     if (strcmp(filename, "stdout") != 0)
@@ -307,11 +325,11 @@ int main (int argc, char *argv[])
     strcpy(runningip, "");
     sprintf(runningip, "%d.%d.%d.%d", addr[1], addr[2], addr[3], i);
 
-    evaluation_ping(re, runningip, optioncso, filename, optionnocolor, optionjson);
-    lookup(runningip, optionname, optioncso, filename, optionnocolor, optionjson);
+    evaluation_ping(re, runningip, optioncso, filename, optionnocolor, optionjson, optionleft);
+    lookup(runningip, optionname, optioncso, filename, optionnocolor, optionjson, optionleft);
     if (optionport == 1) {
       waitpid(ch_pid[i], &ch_return[i], WUNTRACED);
-      evaluation_port(ch_return[i]/256, optioncso, filename, optionnocolor, optionjson);
+      evaluation_port(ch_return[i]/256, optioncso, filename, optionnocolor, optionjson, optionleft);
     }
 
    if (strcmp(filename, "stdout") != 0)

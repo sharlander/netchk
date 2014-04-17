@@ -1,3 +1,12 @@
+Version: 1.3.1
+-------
+add option for left and right side ouput
+printf("%10s");  // right
+printf("%-10s"); // left
+std. way should be the right side cause of c standard
+with the -l, --left option you can bind the table to left side
+corrects colorcode for port option
+
 Version: 1.3.0 (unstable: colorcode for port is not correct)
 -------
 correct colorcodes

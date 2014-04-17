@@ -1,6 +1,6 @@
 #include "inhead.h"
 
-int lookup(char *givenip, int optionname, int optioncso, char *filename, int optionnocolor, int optionjson)
+int lookup(char *givenip, int optionname, int optioncso, char *filename, int optionnocolor, int optionjson, int optionleft)
 {
   FILE *outputfile;
   if (strcmp(filename, "stdout") != 0)
@@ -35,13 +35,25 @@ int lookup(char *givenip, int optionname, int optioncso, char *filename, int opt
     fprintf(outputfile, "%s;", status);
   else if (optionjson == 1)
     fprintf(outputfile, ",{\"name\":\"iplookup\",\"value\":\"%s\"}", status);
-  else if (optionnocolor == 1)
-    fprintf(outputfile, "%40s", status);
-  else {
-    if (strcmp(status, failed) == 0)
-      fprintf(outputfile, "\033[31;1m%40s\33[0m", status);
+  else if (optionnocolor == 1) {
+    if (optionleft == 1)
+      fprintf(outputfile, "%-40s", status);
     else
       fprintf(outputfile, "%40s", status);
+  }
+  else {
+    if (strcmp(status, failed) == 0) {
+      if (optionleft == 1)
+        fprintf(outputfile, "\033[31;1m%-40s\33[0m", status);
+      else
+        fprintf(outputfile, "\033[31;1m%40s\33[0m", status);
+    }
+    else {
+      if (optionleft == 1)
+        fprintf(outputfile, "%-40s", status);
+      else
+        fprintf(outputfile, "%40s", status);
+    }
   }
 
   if (optionname == 1) {
@@ -49,13 +61,25 @@ int lookup(char *givenip, int optionname, int optioncso, char *filename, int opt
       fprintf(outputfile, "%s;", status2);
     else if (optionjson == 1)
       fprintf(outputfile, ",{\"name\":\"namelookup\",\"value\":\"%s\"}", status2);
-    else if (optionnocolor == 1)
-      fprintf(outputfile, "%16s", status2);
-    else {
-      if (strcmp(status2, noname) == 0)
-        fprintf(outputfile, "\033[31;1m%16s\033[0m", status2);
+    else if (optionnocolor == 1) {
+      if (optionleft == 1)
+        fprintf(outputfile, "%-16s", status2);
       else
-        fprintf(outputfile, "\033[32;1m%16s\033[0m", status2);
+        fprintf(outputfile, "%16s", status2);
+    }
+    else {
+      if (strcmp(status2, noname) == 0) {
+        if (optionleft == 1)
+          fprintf(outputfile, "\033[31;1m%-16s\033[0m", status2);
+        else
+          fprintf(outputfile, "\033[31;1m%16s\033[0m", status2);
+      }
+      else {
+        if (optionleft == 1)
+          fprintf(outputfile, "\033[32;1m%-16s\033[0m", status2);
+        else
+          fprintf(outputfile, "\033[32;1m%16s\033[0m", status2);
+      }
     }
   }
 

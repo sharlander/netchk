@@ -14,15 +14,15 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 
-int lookup(char *givenip, int optionname, int optioncso, char *filename, int optionnocolor, int optionjson);
+int lookup(char *givenip, int optionname, int optioncso, char *filename, int optionnocolor, int optionjson, int optionleft);
 int namelookup (char *givenname);
 void description();
 void version();
 void usage(char *givencommand);
 void help();
-int headline(int optionport, int portnumber, int optionw, int optionname, char *filename);
-int evaluation_ping(int re, char *givenip, int optioncso, char *filename, int optionnocolor, int optionjson);
-int evaluation_port(int givenre, int optioncso, char *filename, int optionnocolor, int optionjson);
+int headline(int optionport, int portnumber, int optionw, int optionname, char *filename, int optionleft);
+int evaluation_ping(int re, char *givenip, int optioncso, char *filename, int optionnocolor, int optionjson, int optionleft);
+int evaluation_port(int givenre, int optioncso, char *filename, int optionnocolor, int optionjson, int optionleft);
 int end(int sec, int ips, int optionw, char *filename);
 int portconnection(int givenport, char *givenip);
 

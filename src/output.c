@@ -1,6 +1,6 @@
 #include "inhead.h"
 
-int headline(int optionport, int portnumber, int optionw, int optionname, char *filename)
+int headline(int optionport, int portnumber, int optionw, int optionname, char *filename, int optionleft)
 {
   FILE *outputfile;
   if (strcmp(filename, "stdout") != 0)
@@ -18,12 +18,23 @@ int headline(int optionport, int portnumber, int optionw, int optionname, char *
   if (optionw != 1)
     fprintf(outputfile, "\n");
 
-  fprintf(outputfile, "%16s%8s%40s", ip, ping, iplookup);
+  if (optionleft == 1)
+    fprintf(outputfile, "%-16s%-8s%-40s", ip, ping, iplookup);
+  else
+    fprintf(outputfile, "%16s%8s%40s", ip, ping, iplookup);
 
-  if (optionname == 1)
-    fprintf(outputfile, "%16s", namelookup);
-  if (optionport == 1)
-    fprintf(outputfile, "%11s", port);
+  if (optionname == 1) {
+    if (optionleft == 1)
+      fprintf(outputfile, "%-16s", namelookup);
+    else
+      fprintf(outputfile, "%16s", namelookup);
+  }
+  if (optionport == 1) {
+    if (optionleft == 1)
+      fprintf(outputfile, "%-11s", port);
+    else
+      fprintf(outputfile, "%11s", port);
+  }
 
   fprintf(outputfile, "\n");
 
@@ -36,7 +47,7 @@ int headline(int optionport, int portnumber, int optionw, int optionname, char *
   return 0;
 }
 
-int evaluation_ping(int re, char *givenip, int optioncso, char *filename, int optionnocolor, int optionjson)
+int evaluation_ping(int re, char *givenip, int optioncso, char *filename, int optionnocolor, int optionjson, int optionleft)
 {
   FILE *outputfile;
   if (strcmp(filename, "stdout") != 0)
@@ -57,13 +68,25 @@ int evaluation_ping(int re, char *givenip, int optioncso, char *filename, int op
     fprintf(outputfile, "%s;%s;", givenip, status);
   else if (optionjson == 1)
     fprintf(outputfile, "{\"%s\":{\"name\":\"ping\",\"value\":\"%s\"}", givenip, status);
-  else if (optionnocolor == 1)
-    fprintf(outputfile, "%16s%8s", givenip, ok);
-  else {
-    if (strcmp(status, ok) == 0)
-      fprintf(outputfile, "%16s\033[32;1m%8s\033[0m", givenip, status);
+  else if (optionnocolor == 1) {
+    if (optionleft == 1)
+      fprintf(outputfile, "%-16s%-8s", givenip, ok);
     else
-      fprintf(outputfile, "%16s\033[31;1m%8s\033[0m", givenip, status);
+      fprintf(outputfile, "%16s%8s", givenip, ok);
+  }
+  else {
+    if (strcmp(status, ok) == 0) {
+      if (optionleft == 1)
+        fprintf(outputfile, "%-16s\033[32;1m%-8s\033[0m", givenip, status);
+      else
+        fprintf(outputfile, "%16s\033[32;1m%8s\033[0m", givenip, status);
+    }
+    else {
+      if (optionleft == 1)
+        fprintf(outputfile, "%-16s\033[31;1m%-8s\033[0m", givenip, status);
+      else
+        fprintf(outputfile, "%16s\033[31;1m%8s\033[0m", givenip, status);
+    }
   }
 
   if (strcmp(filename, "stdout") != 0)
@@ -71,7 +94,7 @@ int evaluation_ping(int re, char *givenip, int optioncso, char *filename, int op
   return 0;
 }
 
-int evaluation_port(int givenre, int optioncso, char *filename, int optionnocolor, int optionjson)
+int evaluation_port(int givenre, int optioncso, char *filename, int optionnocolor, int optionjson, int optionleft)
 {
   FILE *outputfile;
   if (strcmp(filename, "stdout") != 0)
@@ -92,10 +115,26 @@ int evaluation_port(int givenre, int optioncso, char *filename, int optionnocolo
       fprintf(outputfile, "%s;", status);
     else if (optionjson == 1)
       fprintf(outputfile, ",{\"name\":\"port\",\"value\":\"%s\"}", status);
-    else if (optionnocolor == 1)
-      fprintf(outputfile, "%11s", status);
-    else
-      fprintf(outputfile, "\033[32;1m%11s\033[0m", status);
+    else if (optionnocolor == 1) {
+      if (optionleft == 1)
+        fprintf(outputfile, "%-11s", status);
+      else
+        fprintf(outputfile, "%11s", status);
+    }
+    else {
+      if (strcmp(status, ok) == 0) {
+        if (optionleft == 1)
+          fprintf(outputfile, "\033[32;1m%-11s\033[0m", status);
+        else
+          fprintf(outputfile, "\033[32;1m%11s\033[0m", status);
+      }
+      else {
+        if (optionleft == 1)
+          fprintf(outputfile, "\033[31;1m%-11s\033[0m", status);
+        else
+          fprintf(outputfile, "\033[31;1m%11s\033[0m", status);
+      }
+    }
 
   if (strcmp(filename, "stdout") != 0)
     fclose(outputfile);
