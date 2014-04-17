@@ -1,3 +1,11 @@
+Version: 1.2.4 (unstable: print to stdout does not work properly)
+-------
+adds function definition in header files
+corrects syntax warning compiled with "-Wall"
+changes print functions to "void" instead of "int"
+removes varchk function, is in main now
+adds the file option to help screen
+
 Version: 1.2.3 (unstable: print to stdout does not work properly)
 -------
 added the file option

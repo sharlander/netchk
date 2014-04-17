@@ -142,7 +142,23 @@ int main (int argc, char *argv[])
         }
     }
 
-  varchk(argc, argv, maxarg);
+  if ((argc < 2) || (argc > maxarg)) {
+    errexptiprange();
+    usage(argv[0]);
+    exit(1);
+  }
+
+  if ((strcmp(argv[1], "-h") == 0) || (strcmp(argv[1], "--help") == 0)) {
+    description();
+    usage(argv[0]);
+    help();
+    exit(0);
+  }
+
+  if ((strcmp(argv[1], "-v") == 0) || (strcmp(argv[1], "--version") == 0)) {
+    version();
+    exit(0);
+  }
 
   int endsec, startsec;
   startsec = time(NULL);
@@ -249,7 +265,7 @@ int main (int argc, char *argv[])
     lookup(runningip, optionname, optioncso, filename);
     if (optionport == 1) {
       waitpid(ch_pid[i], &ch_return[i], WUNTRACED);
-      evaluation_port(ch_return[i]/256, optioncso);
+      evaluation_port(ch_return[i]/256, optioncso, filename);
     }
     fprintf(outputfile, "\n");
     if (optionw != 1)

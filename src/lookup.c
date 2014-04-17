@@ -22,11 +22,12 @@ int lookup(char *givenip, int optionname, int optioncso, char *filename)
     else
       fprintf(outputfile, "\033[31;1mfailed\33[0m\t\t\t\t\t\t");
 
-    if (optionname == 1)
+    if (optionname == 1) {
       if (optioncso==1)
         fprintf(outputfile, "no_name_for_lookup;");
       else
         fprintf(outputfile, "\033[31;1mno name for lookup\033[0m\t");
+    }
 
     fclose(outputfile);
     return 1;
