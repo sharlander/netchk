@@ -1,0 +1,11 @@
+Version: 1.1.9
+-------
+fixed double options ( -pw )
+
+Version: 1.1.8
+-------
+fixed duplicated options ( -w -w )
+
+Version: 1.1.7
+-------
+fixed option order ( 10.254.12.5 -w -p 22 9 )
