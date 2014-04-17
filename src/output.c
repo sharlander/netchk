@@ -38,7 +38,9 @@ int headline(int optionport, int portnumber, int optionw, int optionname, char *
        fprintf(outputfile, "\n\n");
     }
 
-    fclose(outputfile);
+    if (strcmp(filename, "stdout") != 0)
+      fclose(outputfile);
+
     return 0;
 }
 
@@ -61,7 +63,8 @@ int evaluation_ping(int re, char *givenip, int optioncso, char *filename)
     else
       fprintf(outputfile, "%s\t\033[31;1mfailed\033[0m\t\t", givenip);
 
-  fclose(outputfile);
+  if (strcmp(filename, "stdout") != 0)
+    fclose(outputfile);
   return 0;
 }
 
@@ -84,7 +87,8 @@ int evaluation_port(int givenre, int optioncso, char *filename)
     else
     fprintf(outputfile, "\033[31;1mfailed\033[0m");
 
-  fclose(outputfile);
+  if (strcmp(filename, "stdout") != 0)
+    fclose(outputfile);
   return 0;
 }
 
@@ -108,6 +112,7 @@ int end(int sec, int ips, int optionw, char *filename)
   if (optionw != 1)
   fprintf(outputfile, "\n");
 
-  fclose(outputfile);
+  if (strcmp(filename, "stdout") != 0)
+    fclose(outputfile);
   return 0;
 }

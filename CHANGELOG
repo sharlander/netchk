@@ -1,3 +1,8 @@
+Version: 1.2.5
+-------
+fixes bug of prev. version
+now it looks for "stdout" before it closes the file
+
 Version: 1.2.4 (unstable: print to stdout does not work properly)
 -------
 adds function definition in header files

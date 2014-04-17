@@ -15,7 +15,7 @@ int main (int argc, char *argv[])
     int optioncso=5, optioncsocounter=0, csoposition;
     int optionf=5, optionfcounter=0, fposition;
 
-    char *filename = {"stdout"};
+    char *filename = {"stdout\0"};
 
     for (t=1; t<argc; t++) {
 
@@ -240,23 +240,15 @@ int main (int argc, char *argv[])
   }
 
   FILE *outputfile;
-  if (optionf == 1) {
+  if (strcmp(filename, "stdout") != 0) {
     outputfile = fopen(filename, "w");
     fclose(outputfile);
   }
-  else
-    outputfile = stdout;
-
 
   if (optioncso != 1)
     headline(optionport, portnumber, optionw, optionname, filename);
 
   for (i=istart; i<=iend; i++) {
-    if (optionf == 1)
-      outputfile = fopen(filename, "a");
-    else
-      outputfile = stdout;
-
     re = pclose(stream[i]);
     strcpy(runningip, "");
     sprintf(runningip, "%d.%d.%d.%d", addr[1], addr[2], addr[3], i);
@@ -267,10 +259,17 @@ int main (int argc, char *argv[])
       waitpid(ch_pid[i], &ch_return[i], WUNTRACED);
       evaluation_port(ch_return[i]/256, optioncso, filename);
     }
-    fprintf(outputfile, "\n");
-    if (optionw != 1)
-      fprintf(outputfile, "\n");
 
+   if (strcmp(filename, "stdout") != 0)
+     outputfile = fopen(filename, "a");
+   else
+     outputfile = stdout;
+
+   fprintf(outputfile, "\n");
+   if (optionw != 1)
+     fprintf(outputfile, "\n");
+
+   if (strcmp(filename, "stdout") != 0)
     fclose(outputfile);
   }
 

@@ -29,7 +29,8 @@ int lookup(char *givenip, int optionname, int optioncso, char *filename)
         fprintf(outputfile, "\033[31;1mno name for lookup\033[0m\t");
     }
 
-    fclose(outputfile);
+    if (strcmp(filename, "stdout") != 0)
+      fclose(outputfile);
     return 1;
   }
   else {
@@ -51,7 +52,8 @@ int lookup(char *givenip, int optionname, int optioncso, char *filename)
         else
           fprintf(outputfile, "\033[31;1m%s\33[0m\t\t", node);
     }
-    fclose(outputfile);
+    if (strcmp(filename, "stdout") != 0)
+      fclose(outputfile);
     return 0;
   }
 }
