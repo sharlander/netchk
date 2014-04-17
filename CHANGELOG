@@ -1,3 +1,14 @@
+Version: 1.2.7
+-------
+implement fixed stringlen for output
+e.g. printf("%s"); -> printf("%20s");
+this is needed to avoid useless blanks on lineend
+
+Version: 1.2.6
+-------
+added manpage for netchk
+corrects "programm" to "program" on help pages
+
 Version: 1.2.5
 -------
 fixes bug of prev. version

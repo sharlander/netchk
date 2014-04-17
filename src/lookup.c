@@ -8,6 +8,9 @@ int lookup(char *givenip, int optionname, int optioncso, char *filename)
   else
     outputfile = stdout;
 
+  char failed[200] = {"failed"};
+  char noname[200] = {"noname"};
+
   struct sockaddr_in sa;
   sa.sin_family = AF_INET;
   inet_pton(AF_INET, givenip, &sa.sin_addr);
@@ -18,15 +21,15 @@ int lookup(char *givenip, int optionname, int optioncso, char *filename)
 
   if ((strcmp(node, givenip) == 0) || (strcmp(node, "0.0.0.0") == 0)) {
     if (optioncso == 1)
-      fprintf(outputfile, "failed;");
+      fprintf(outputfile, "%s;", failed);
     else
-      fprintf(outputfile, "\033[31;1mfailed\33[0m\t\t\t\t\t\t");
+      fprintf(outputfile, "\033[31;1m%40s\33[0m", failed);
 
     if (optionname == 1) {
       if (optioncso==1)
-        fprintf(outputfile, "no_name_for_lookup;");
+        fprintf(outputfile, "%s;", noname);
       else
-        fprintf(outputfile, "\033[31;1mno name for lookup\033[0m\t");
+        fprintf(outputfile, "\033[31;1m%16s\033[0m", noname);
     }
 
     if (strcmp(filename, "stdout") != 0)
@@ -37,24 +40,25 @@ int lookup(char *givenip, int optionname, int optioncso, char *filename)
     if (optioncso==1)
       fprintf(outputfile, "%s;", node);
     else
-      fprintf(outputfile, "%s\t\t", node);
+      fprintf(outputfile, "%40s", node);
 
     if (optionname == 1) {
       namelookup(node);
-      if (strcmp(node, givenip)==0)
+      if (strcmp(node, givenip)==0) {
         if (optioncso==1)
           fprintf(outputfile, "%s;", node);
         else
-          fprintf(outputfile, "\033[32;1m%s\033[0m\t\t", node);
-      else
+          fprintf(outputfile, "\033[32;1m%16s\033[0m", node);
+      }
+      else {
         if (optioncso==1)
           fprintf(outputfile, "%s;", node);
         else
-          fprintf(outputfile, "\033[31;1m%s\33[0m\t\t", node);
+          fprintf(outputfile, "\033[31;1m%16s\33[0m", node);
+      }
     }
     if (strcmp(filename, "stdout") != 0)
       fclose(outputfile);
     return 0;
   }
 }
-

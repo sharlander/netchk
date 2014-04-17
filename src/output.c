@@ -8,40 +8,32 @@ int headline(int optionport, int portnumber, int optionw, int optionname, char *
   else
     outputfile = stdout;
 
-    if ((optionport == 1) && (optionname == 1)) {
-        if (optionw != 1)
-        fprintf(outputfile, "\n");
-        fprintf(outputfile, "IP:\t\tping:\t\tip-lookup:\t\t\t\t\tname-lookup:\t\tport %d:\n"
-               , portnumber);
-        if (optionw != 1)
-        fprintf(outputfile, "\n\n");
-    }
-    else if ((optionport != 1) && (optionname == 1)) {
-       if(optionw != 1)
-       fprintf(outputfile, "\n");
-       fprintf(outputfile, "IP:\t\tping:\t\tip-lookup:\t\t\t\t\tnamelookup:\n");
-       if(optionw != 1)
-       fprintf(outputfile, "\n\n");
-    }
-    else if ((optionport == 1) && (optionname != 1)) {
-       if(optionw != 1)
-       fprintf(outputfile, "\n");
-       fprintf(outputfile, "IP:\t\tping:\t\tip-lookup:\t\t\t\t\tport %d:\n", portnumber);
-       if( optionw != 1)
-       fprintf(outputfile, "\n\n");
-    }
-    else {
-       if(optionw != 1)
-       fprintf(outputfile, "\n");
-       fprintf(outputfile, "IP:\t\tping:\t\tip-lookup:\n");
-       if(optionw != 1)
-       fprintf(outputfile, "\n\n");
-    }
+  char ip[200] = {"IP:"};
+  char ping[200] = {"ping:"};
+  char iplookup[200] = {"ip-lookup:"};
+  char namelookup[200] = {"name-lookup:"};
+  char port[200];
+  sprintf(port, "port %d:", portnumber);
 
-    if (strcmp(filename, "stdout") != 0)
-      fclose(outputfile);
+  if (optionw != 1)
+    fprintf(outputfile, "\n");
 
-    return 0;
+  fprintf(outputfile, "%16s%8s%40s", ip, ping, iplookup);
+
+  if (optionname == 1)
+    fprintf(outputfile, "%16s", namelookup);
+  if (optionport == 1)
+    fprintf(outputfile, "%11s", port);
+
+  fprintf(outputfile, "\n");
+
+  if (optionw != 1)
+    fprintf(outputfile, "\n\n");
+
+  if (strcmp(filename, "stdout") != 0)
+    fclose(outputfile);
+
+  return 0;
 }
 
 int evaluation_ping(int re, char *givenip, int optioncso, char *filename)
@@ -52,16 +44,19 @@ int evaluation_ping(int re, char *givenip, int optioncso, char *filename)
   else
     outputfile = stdout;
 
+  char ok[200] = {"ok"};
+  char failed[200] = {"failed"};
+
   if (re == 0)
     if (optioncso==1)
       fprintf(outputfile, "%s;ok;", givenip);
     else
-      fprintf(outputfile, "%s\t\033[32;1mok\033[0m\t\t", givenip);
+      fprintf(outputfile, "%16s\033[32;1m%8s\033[0m", givenip, ok);
   else
     if (optioncso==1)
       fprintf(outputfile, "%s;failed;", givenip);
     else
-      fprintf(outputfile, "%s\t\033[31;1mfailed\033[0m\t\t", givenip);
+      fprintf(outputfile, "%16s\033[31;1m%8s\033[0m", givenip, failed);
 
   if (strcmp(filename, "stdout") != 0)
     fclose(outputfile);
@@ -76,16 +71,21 @@ int evaluation_port(int givenre, int optioncso, char *filename)
   else
     outputfile = stdout;
 
-  if (givenre == 0)
-    if (optioncso==1)
+  char ok[200] = {"ok"};
+  char failed[200] = {"failed"};
+
+  if (givenre == 0) {
+    if (optioncso == 1)
       fprintf(outputfile, "ok;");
     else
-      fprintf(outputfile, "\033[32;1mok\033[0m");
-  else
-    if (optioncso==1)
-    fprintf(outputfile, "failed;");
+      fprintf(outputfile, "\033[32;1m%11s\033[0m", ok);
+  }
+  else {
+    if (optioncso == 1)
+      fprintf(outputfile, "failed;");
     else
-    fprintf(outputfile, "\033[31;1mfailed\033[0m");
+      fprintf(outputfile, "\033[31;1m%11s\033[0m", failed);
+  }
 
   if (strcmp(filename, "stdout") != 0)
     fclose(outputfile);
