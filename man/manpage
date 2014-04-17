@@ -1,0 +1,36 @@
+.\" Manpage for netchk.
+.TH man 8 "17 Jan 2014" "1.2.6" "netchk man page"
+.SH NAME
+netchk \- scans a given ip range
+.SH SYNOPSIS
+netchk [OPTIONS] NETWORK END
+.SH DESCRIPTION
+netchk is a simple and fast network scanner
+.SH OPTIONS
+  -h,  --help
+          Display's help
+
+  -v, --version
+          Show's program version
+
+  -p, --port
+          Connects to a specific port
+
+  -w, --without-blank
+          Output is without the blank lines
+
+  -n, --namelookup
+          Namelookup is compared with ip
+
+  -c, --commaseparated
+          Comma separated output
+
+  -f, --file
+          Prints output to given file
+
+.SH SEE ALSO
+ping, nslookup
+.SH BUGS
+No known bugs.
+.SH AUTHOR
+Stefan Harlander (harlander-stefan@web.de)

@@ -3,7 +3,7 @@
 void description()
 {
   printf( "\n"
-          "The Programm is for checking a network\n"
+          "The program is for checking a network\n"
           "the given ip range is checked (in multiple threads) with ping and iplookup\n"
           "\n");
 }
@@ -11,7 +11,7 @@ void description()
 void version()
 {
   printf("\n"
-         "The Programm version is 1.2.5\n"
+         "The program version is 1.2.6\n"
          "\n");
 }
 
@@ -35,7 +35,7 @@ void help()
          "Short options:\n"
          "\n"
          "-h\t\tDisplay's this help\n"
-         "-v\t\tShow's programm version\n"
+         "-v\t\tShow's program version\n"
          "-p\t\tConnects to a specific port\n"
          "-w\t\tOutput is without the blank lines\n"
          "-n\t\tNamelookup is compared with ip\n"
@@ -45,7 +45,7 @@ void help()
          "Long options:\n"
          "\n"
          "--help\t\t\tDisplay's this help\n"
-         "--version\t\tShow's programm version\n"
+         "--version\t\tShow's program version\n"
          "--port\t\t\tConnects to specific port\n"
          "--without-blank\t\tOutput is without the blank lines\n"
          "--namelookup\t\tNamelookup is compared with ip\n"
