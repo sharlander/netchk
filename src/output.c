@@ -29,7 +29,17 @@ int evaluation_ping(int re, char *givenip)
     printf("\n%s\t\033[32;1mok\033[0m\t\t", givenip);
   else
     printf("\n%s\t\033[31;1mfailed\033[0m\t\t", givenip);
-  
+
+  return 0;
+}
+
+int evaluation_port(int givenre)
+{
+  if (givenre == 0)
+    printf("\033[32;1mok\033[0m");
+  else
+    printf("\033[31;1mfailed\033[0m");
+
   return 0;
 }
 
@@ -43,9 +53,9 @@ int end( int sec, int ips, int optionw)
   printf("\nFinished %d ip in %d seconds\n", ips, sec );
   else
   printf("\nFinished %d ips in %d seconds\n", ips, sec );
-  
+
   if( optionw != 1)
-  printf("\n");  
-  
+  printf("\n");
+
   return 0;
 }

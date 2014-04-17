@@ -1,3 +1,8 @@
+Version: 1.2.0
+-------
+speed increaded by portconnection
+now forking the portconnect to a proccess
+
 Version: 1.1.9
 -------
 fixed double options ( -pw )
