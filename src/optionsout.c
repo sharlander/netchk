@@ -11,7 +11,7 @@ void description()
 void version()
 {
   printf("\n"
-         "The program version is 1.2.8\n"
+         "The program version is 1.2.9\n"
          "\n");
 }
 
@@ -42,6 +42,7 @@ void help()
          "-c\t\tComma separated output\n"
          "-f\t\tPrints output to given file\n"
          "-b\t\tOutput without colors\n"
+         "-j\t\tjson formatted output\n"
          "\n"
          "Long options:\n"
          "\n"
@@ -52,7 +53,8 @@ void help()
          "--namelookup\t\tNamelookup is compared with ip\n"
          "--commaseparated\tComma separated output\n"
          "--file\t\t\tPrints output to given file\n"
-         "--nocolor\t\tOutput without colors\n"
+         "--nocolor\t\tOuput without colors\n"
+         "--json\t\t\tjson formatted output\n"
          "\n"
          );
 }

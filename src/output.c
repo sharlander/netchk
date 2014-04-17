@@ -36,7 +36,7 @@ int headline(int optionport, int portnumber, int optionw, int optionname, char *
   return 0;
 }
 
-int evaluation_ping(int re, char *givenip, int optioncso, char *filename, int optionnocolor)
+int evaluation_ping(int re, char *givenip, int optioncso, char *filename, int optionnocolor, int optionjson)
 {
   FILE *outputfile;
   if (strcmp(filename, "stdout") != 0)
@@ -46,30 +46,28 @@ int evaluation_ping(int re, char *givenip, int optioncso, char *filename, int op
 
   char ok[200] = {"ok"};
   char failed[200] = {"failed"};
+  char status[200];
 
-  if (re == 0) {
-    if (optioncso==1)
-      fprintf(outputfile, "%s;%s;", givenip, ok);
-    else if (optionnocolor == 1)
-      fprintf(outputfile, "%16s%8s", givenip, ok);
-    else
-      fprintf(outputfile, "%16s\033[32;1m%8s\033[0m", givenip, ok);
-  }
-  else {
-    if (optioncso==1)
-      fprintf(outputfile, "%s;%s;", givenip, failed);
-    else if (optionnocolor == 1)
-      fprintf(outputfile, "%16s%8s", givenip, failed);
-    else
-      fprintf(outputfile, "%16s\033[31;1m%8s\033[0m", givenip, failed);
-  }
+  if (re == 0)
+    strcpy(status, ok);
+  else
+    strcpy(status, failed);
+
+  if (optioncso == 1)
+    fprintf(outputfile, "%s;%s;", givenip, status);
+  else if (optionjson == 1)
+    fprintf(outputfile, "{\"%s\":{\"name\":\"ping\",\"value\":\"%s\"}", givenip, status);
+  else if (optionnocolor == 1)
+    fprintf(outputfile, "%16s%8s", givenip, ok);
+  else
+    fprintf(outputfile, "%16s\033[32;1m%8s\033[0m", givenip, status);
 
   if (strcmp(filename, "stdout") != 0)
     fclose(outputfile);
   return 0;
 }
 
-int evaluation_port(int givenre, int optioncso, char *filename, int optionnocolor)
+int evaluation_port(int givenre, int optioncso, char *filename, int optionnocolor, int optionjson)
 {
   FILE *outputfile;
   if (strcmp(filename, "stdout") != 0)
@@ -79,26 +77,25 @@ int evaluation_port(int givenre, int optioncso, char *filename, int optionnocolo
 
   char ok[200] = {"ok"};
   char failed[200] = {"failed"};
+  char status[200];
 
-  if (givenre == 0) {
+  if (givenre == 0)
+    strcpy(status, ok);
+  else
+    strcpy(status, failed);
+
     if (optioncso == 1)
-      fprintf(outputfile, "%s;", ok);
+      fprintf(outputfile, "%s;", status);
+    else if (optionjson == 1)
+      fprintf(outputfile, ",{\"name\":\"port\",\"value\":\"%s\"}", status);
     else if (optionnocolor == 1)
-      fprintf(outputfile, "%11s", ok);
+      fprintf(outputfile, "%11s", status);
     else
-      fprintf(outputfile, "\033[32;1m%11s\033[0m", ok);
-  }
-  else {
-    if (optioncso == 1)
-      fprintf(outputfile, "failed;");
-    else if (optionnocolor == 1)
-      fprintf(outputfile, "%11s", failed);
-    else
-      fprintf(outputfile, "\033[31;1m%11s\033[0m", failed);
-  }
+      fprintf(outputfile, "\033[32;1m%11s\033[0m", status);
 
   if (strcmp(filename, "stdout") != 0)
     fclose(outputfile);
+
   return 0;
 }
 
@@ -111,16 +108,16 @@ int end(int sec, int ips, int optionw, char *filename)
     outputfile = stdout;
 
   if ((sec == 1) && (ips > 1))
-  fprintf(outputfile, "Finished %d ips in %d second\n", ips, sec);
+    fprintf(outputfile, "Finished %d ips in %d second\n", ips, sec);
   else if ((sec == 1) && (ips == 1))
-  fprintf(outputfile, "Finished %d ip in %d second\n", ips, sec);
+    fprintf(outputfile, "Finished %d ip in %d second\n", ips, sec);
   else if (( sec > 1) && ( ips== 1))
-  fprintf(outputfile, "Finished %d ip in %d seconds\n", ips, sec);
+    fprintf(outputfile, "Finished %d ip in %d seconds\n", ips, sec);
   else
-  fprintf(outputfile, "Finished %d ips in %d seconds\n", ips, sec);
+    fprintf(outputfile, "Finished %d ips in %d seconds\n", ips, sec);
 
   if (optionw != 1)
-  fprintf(outputfile, "\n");
+    fprintf(outputfile, "\n");
 
   if (strcmp(filename, "stdout") != 0)
     fclose(outputfile);

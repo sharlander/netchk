@@ -15,6 +15,7 @@ int main (int argc, char *argv[])
     int optioncso=5, optioncsocounter=0, csoposition;
     int optionf=5, optionfcounter=0, fposition;
     int optionnocolor=5, optionnocolorcounter=0, nocolorposition;
+    int optionjson=5, optionjsoncounter=0, jsonposition;
 
     char *filename = {"stdout\0"};
 
@@ -61,6 +62,13 @@ int main (int argc, char *argv[])
           optionnocolor = 1;
           optionnocolorcounter += 1;
           nocolorposition = t;
+          maxarg +=1;
+        }
+
+        if (strcmp(argv[t], "--json") == 0) {
+          optionjson = 1;
+          optionjsoncounter += 1;
+          jsonposition = t;
           maxarg +=1;
         }
 
@@ -112,10 +120,26 @@ int main (int argc, char *argv[])
               if (u==1)
                 maxarg +=1;
             }
+            if (argv[t][u] == 'j') {
+              optionjson = 1;
+              optionjsoncounter += 1;
+              jsonposition = t;
+              if (u==1)
+                maxarg +=1;
+            }
           }
    }
 
-    if ((optionwcounter > 1) || (optionpcounter > 1) || (optionnamecounter > 1) || (optioncsocounter > 1) || (optionfcounter > 1) || (optionnocolorcounter > 1)) {
+    if (
+        (optionwcounter > 1) ||
+        (optionpcounter > 1) ||
+        (optionnamecounter > 1) ||
+        (optioncsocounter > 1) ||
+        (optionfcounter > 1) ||
+        (optionnocolorcounter > 1) ||
+        (optionjsoncounter > 1)
+       )
+    {
         errdupopt();
         return 1;
     }
@@ -143,6 +167,8 @@ int main (int argc, char *argv[])
         else if (csoposition == t)
             position[t] = 0;
         else if (nocolorposition == t)
+            position[t] = 0;
+        else if (jsonposition == t)
             position[t] = 0;
         else
             position[t] = 1;
@@ -262,19 +288,30 @@ int main (int argc, char *argv[])
     fclose(outputfile);
   }
 
-  if (optioncso != 1)
+  if ((optioncso != 1) && (optionjson != 1))
     headline(optionport, portnumber, optionw, optionname, filename);
 
+  if (optionjson == 1) {
+    if (strcmp(filename, "stdout") != 0)
+      outputfile = fopen(filename, "a");
+    else
+      outputfile = stdout;
+    fprintf(outputfile, "{\"netchk\":");
+    if (strcmp(filename, "stdout") != 0)
+      fclose(outputfile);
+  }
+
   for (i=istart; i<=iend; i++) {
+
     re = pclose(stream[i]);
     strcpy(runningip, "");
     sprintf(runningip, "%d.%d.%d.%d", addr[1], addr[2], addr[3], i);
 
-    evaluation_ping(re, runningip, optioncso, filename, optionnocolor);
-    lookup(runningip, optionname, optioncso, filename, optionnocolor);
+    evaluation_ping(re, runningip, optioncso, filename, optionnocolor, optionjson);
+    lookup(runningip, optionname, optioncso, filename, optionnocolor, optionjson);
     if (optionport == 1) {
       waitpid(ch_pid[i], &ch_return[i], WUNTRACED);
-      evaluation_port(ch_return[i]/256, optioncso, filename, optionnocolor);
+      evaluation_port(ch_return[i]/256, optioncso, filename, optionnocolor, optionjson);
     }
 
    if (strcmp(filename, "stdout") != 0)
@@ -282,7 +319,14 @@ int main (int argc, char *argv[])
    else
      outputfile = stdout;
 
-   fprintf(outputfile, "\n");
+   if (optionjson != 1)
+     fprintf(outputfile, "\n");
+   else {
+     fprintf(outputfile, "}");
+     if (i != iend)
+       fprintf(outputfile, ",");
+   }
+
    if (optionw != 1)
      fprintf(outputfile, "\n");
 
@@ -290,9 +334,19 @@ int main (int argc, char *argv[])
     fclose(outputfile);
   }
 
+  if (optionjson == 1) {
+    if (strcmp(filename, "stdout") != 0)
+      outputfile = fopen(filename, "a");
+    else
+      outputfile = stdout;
+    fprintf(outputfile, "}");
+    if (strcmp(filename, "stdout") != 0)
+      fclose(outputfile);
+  }
+
   endsec = time(NULL);
 
-  if (optioncso != 1)
+  if ((optioncso != 1) && (optionjson != 1))
     end((endsec - startsec), (iend - istart + 1), optionw, filename);
 
   return 0;

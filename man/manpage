@@ -1,5 +1,5 @@
 .\" Manpage for netchk.
-.TH man 8 "17 Jan 2014" "1.2.6" "netchk man page"
+.TH man 8 "22 Jan 2014" "1.2.8" "netchk man page"
 .SH NAME
 netchk \- scans a given ip range
 .SH SYNOPSIS
@@ -27,6 +27,9 @@ netchk is a simple and fast network scanner
 
   -f, --file
           Prints output to given file
+
+  -b, --nocolor
+          Output without colors
 
 .SH SEE ALSO
 ping, nslookup

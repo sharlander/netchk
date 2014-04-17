@@ -1,3 +1,12 @@
+Version: 1.2.9 (unstable: colorcodes are not correct)
+-------
+added the json option
+ -j | --json
+output is in json format
+
+rewrote the prints in output and lookup files to have a leading if case and only 1 print statement
+old solution were 2 prints in the ifcase
+
 Version: 1.2.8
 -------
 added the nocolor option
