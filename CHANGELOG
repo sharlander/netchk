@@ -1,3 +1,9 @@
+Version: 1.2.8
+-------
+added the nocolor option
+  -b | --nocolor
+output is without colors
+
 Version: 1.2.7
 -------
 implement fixed stringlen for output

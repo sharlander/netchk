@@ -1,6 +1,6 @@
 #include "inhead.h"
 
-int lookup(char *givenip, int optionname, int optioncso, char *filename)
+int lookup(char *givenip, int optionname, int optioncso, char *filename, int optionnocolor)
 {
   FILE *outputfile;
   if (strcmp(filename, "stdout") != 0)
@@ -22,12 +22,16 @@ int lookup(char *givenip, int optionname, int optioncso, char *filename)
   if ((strcmp(node, givenip) == 0) || (strcmp(node, "0.0.0.0") == 0)) {
     if (optioncso == 1)
       fprintf(outputfile, "%s;", failed);
+    else if (optionnocolor == 1)
+      fprintf(outputfile, "%40s", failed);
     else
       fprintf(outputfile, "\033[31;1m%40s\33[0m", failed);
 
     if (optionname == 1) {
       if (optioncso==1)
         fprintf(outputfile, "%s;", noname);
+      else if (optionnocolor == 1)
+        fprintf(outputfile, "%16s", noname);
       else
         fprintf(outputfile, "\033[31;1m%16s\033[0m", noname);
     }
@@ -47,12 +51,16 @@ int lookup(char *givenip, int optionname, int optioncso, char *filename)
       if (strcmp(node, givenip)==0) {
         if (optioncso==1)
           fprintf(outputfile, "%s;", node);
+        else if (optionnocolor == 1)
+          fprintf(outputfile, "%16s", node);
         else
           fprintf(outputfile, "\033[32;1m%16s\033[0m", node);
       }
       else {
         if (optioncso==1)
           fprintf(outputfile, "%s;", node);
+        else if (optionnocolor == 1)
+          fprintf(outputfile, "%16s", node);
         else
           fprintf(outputfile, "\033[31;1m%16s\33[0m", node);
       }

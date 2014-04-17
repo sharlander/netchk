@@ -14,6 +14,7 @@ int main (int argc, char *argv[])
     int optionname=5, optionnamecounter=0, nameposition;
     int optioncso=5, optioncsocounter=0, csoposition;
     int optionf=5, optionfcounter=0, fposition;
+    int optionnocolor=5, optionnocolorcounter=0, nocolorposition;
 
     char *filename = {"stdout\0"};
 
@@ -53,6 +54,13 @@ int main (int argc, char *argv[])
           optioncso = 1;
           optioncsocounter += 1;
           csoposition = t;
+          maxarg +=1;
+        }
+
+        if (strcmp(argv[t], "--nocolor") == 0) {
+          optionnocolor = 1;
+          optionnocolorcounter += 1;
+          nocolorposition = t;
           maxarg +=1;
         }
 
@@ -97,10 +105,17 @@ int main (int argc, char *argv[])
               if (u==1)
                 maxarg +=1;
             }
+            if (argv[t][u] == 'b') {
+              optionnocolor = 1;
+              optionnocolorcounter += 1;
+              nocolorposition = t;
+              if (u==1)
+                maxarg +=1;
+            }
           }
    }
 
-    if ((optionwcounter > 1) || (optionpcounter > 1) || (optionnamecounter > 1) || (optioncsocounter > 1) || (optionfcounter > 1)) {
+    if ((optionwcounter > 1) || (optionpcounter > 1) || (optionnamecounter > 1) || (optioncsocounter > 1) || (optionfcounter > 1) || (optionnocolorcounter > 1)) {
         errdupopt();
         return 1;
     }
@@ -126,6 +141,8 @@ int main (int argc, char *argv[])
         else if (nameposition == t)
             position[t] = 0;
         else if (csoposition == t)
+            position[t] = 0;
+        else if (nocolorposition == t)
             position[t] = 0;
         else
             position[t] = 1;
@@ -253,11 +270,11 @@ int main (int argc, char *argv[])
     strcpy(runningip, "");
     sprintf(runningip, "%d.%d.%d.%d", addr[1], addr[2], addr[3], i);
 
-    evaluation_ping(re, runningip, optioncso, filename);
-    lookup(runningip, optionname, optioncso, filename);
+    evaluation_ping(re, runningip, optioncso, filename, optionnocolor);
+    lookup(runningip, optionname, optioncso, filename, optionnocolor);
     if (optionport == 1) {
       waitpid(ch_pid[i], &ch_return[i], WUNTRACED);
-      evaluation_port(ch_return[i]/256, optioncso, filename);
+      evaluation_port(ch_return[i]/256, optioncso, filename, optionnocolor);
     }
 
    if (strcmp(filename, "stdout") != 0)

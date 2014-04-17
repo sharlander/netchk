@@ -8,12 +8,12 @@ int headline(int optionport, int portnumber, int optionw, int optionname, char *
   else
     outputfile = stdout;
 
-  char ip[200] = {"IP:"};
-  char ping[200] = {"ping:"};
-  char iplookup[200] = {"ip-lookup:"};
-  char namelookup[200] = {"name-lookup:"};
+  char ip[200] = {"IP"};
+  char ping[200] = {"ping"};
+  char iplookup[200] = {"ip-lookup"};
+  char namelookup[200] = {"name-lookup"};
   char port[200];
-  sprintf(port, "port %d:", portnumber);
+  sprintf(port, "port %d", portnumber);
 
   if (optionw != 1)
     fprintf(outputfile, "\n");
@@ -36,7 +36,7 @@ int headline(int optionport, int portnumber, int optionw, int optionname, char *
   return 0;
 }
 
-int evaluation_ping(int re, char *givenip, int optioncso, char *filename)
+int evaluation_ping(int re, char *givenip, int optioncso, char *filename, int optionnocolor)
 {
   FILE *outputfile;
   if (strcmp(filename, "stdout") != 0)
@@ -47,23 +47,29 @@ int evaluation_ping(int re, char *givenip, int optioncso, char *filename)
   char ok[200] = {"ok"};
   char failed[200] = {"failed"};
 
-  if (re == 0)
+  if (re == 0) {
     if (optioncso==1)
-      fprintf(outputfile, "%s;ok;", givenip);
+      fprintf(outputfile, "%s;%s;", givenip, ok);
+    else if (optionnocolor == 1)
+      fprintf(outputfile, "%16s%8s", givenip, ok);
     else
       fprintf(outputfile, "%16s\033[32;1m%8s\033[0m", givenip, ok);
-  else
+  }
+  else {
     if (optioncso==1)
-      fprintf(outputfile, "%s;failed;", givenip);
+      fprintf(outputfile, "%s;%s;", givenip, failed);
+    else if (optionnocolor == 1)
+      fprintf(outputfile, "%16s%8s", givenip, failed);
     else
       fprintf(outputfile, "%16s\033[31;1m%8s\033[0m", givenip, failed);
+  }
 
   if (strcmp(filename, "stdout") != 0)
     fclose(outputfile);
   return 0;
 }
 
-int evaluation_port(int givenre, int optioncso, char *filename)
+int evaluation_port(int givenre, int optioncso, char *filename, int optionnocolor)
 {
   FILE *outputfile;
   if (strcmp(filename, "stdout") != 0)
@@ -76,13 +82,17 @@ int evaluation_port(int givenre, int optioncso, char *filename)
 
   if (givenre == 0) {
     if (optioncso == 1)
-      fprintf(outputfile, "ok;");
+      fprintf(outputfile, "%s;", ok);
+    else if (optionnocolor == 1)
+      fprintf(outputfile, "%11s", ok);
     else
       fprintf(outputfile, "\033[32;1m%11s\033[0m", ok);
   }
   else {
     if (optioncso == 1)
       fprintf(outputfile, "failed;");
+    else if (optionnocolor == 1)
+      fprintf(outputfile, "%11s", failed);
     else
       fprintf(outputfile, "\033[31;1m%11s\033[0m", failed);
   }
