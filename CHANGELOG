@@ -1,3 +1,9 @@
+Version: 1.2.3 (unstable: print to stdout does not work properly)
+-------
+added the file option
+ -f | --file + outputfilename
+default is stdout
+
 Version: 1.2.2
 -------
 added the commaseparated option

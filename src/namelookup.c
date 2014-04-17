@@ -1,6 +1,6 @@
-# include "inhead.h"
+#include "inhead.h"
 
-int namelookup ( char *givenname )
+int namelookup (char *givenname)
 {
   struct hostent *dns;
   if ( gethostbyname(givenname) == 0)
@@ -14,5 +14,4 @@ int namelookup ( char *givenname )
           (unsigned char) dns->h_addr_list[0][3]);
 
   return 0;
-
 }

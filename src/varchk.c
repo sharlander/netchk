@@ -1,32 +1,27 @@
-# include "inhead.h"
+#include "inhead.h"
 
-int varchk(int argv, char *argc[], int maxarg )
+int varchk(int argc, char *argv[], int maxarg)
 {
   int b=0;
   int c=1;
-  
-  if ( ( argv < 2 ) ||
-        ( argv > maxarg )
-     )
-  {
-        errexptiprange();
-        usage(argc[b]);
-        exit(1);
+
+  if ((argc < 2) || (argc > maxarg)) {
+    errexptiprange();
+    usage(argv[b]);
+    exit(1);
   }
 
-  if ( (strcmp(argc[c], "-h") == 0) || (strcmp(argc[c], "--help") == 0) )
-  {
-      description();
-      usage(argc[b]);
-      help();
-      exit(0);
+  if ((strcmp(argv[c], "-h") == 0) || (strcmp(argv[c], "--help") == 0)) {
+    description();
+    usage(argv[b]);
+    help();
+    exit(0);
   }
 
-  if ( (strcmp(argc[c], "-v") == 0) || (strcmp(argc[c], "--version") == 0) )
-  {
+  if ((strcmp(argv[c], "-v") == 0) || (strcmp(argv[c], "--version") == 0)) {
     version();
     exit(0);
   }
-   
-    return 0;
+
+  return 0;
 }

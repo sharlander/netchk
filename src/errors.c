@@ -1,56 +1,34 @@
 #include "inhead.h"
 
-int errrange()
-{
-    printf("\n"
-          "Error: Expected a ip range!\n"
-          );
-    return 0;
+void errrange() {
+  printf( "\n"
+          "Error: Expected a ip range!\n");
 }
 
-int erroptions()
-{
-    return 0;
+void errip() {
+  printf("Error: not a valid ip\n");
 }
 
-int errip()
-{
-    printf("Error: not a valid ip\n"
-          );
-    return 0;
+void errnegip() {
+  printf("Error: negative ip range detected\n");
 }
 
-int errnegip()
-{
-    printf("Error: negative ip range detected\n"
-          );
-    return 0;
+void errvalran() {
+  printf("Error: not a valid range\n");
 }
 
-int errvalran()
-{
-    printf("Error: not a valid range\n"
-          );
-    return 0;
+void errinvalport() {
+  printf("Error: not a valid port\n");
 }
 
-int errinvalport()
-{
-    printf("Error: not a valid Port\n"
-          );
-    return 0;
+void errexptiprange() {
+  printf("Error: Invalid parameters!\n");
 }
 
-int errexptiprange()
-{
-    printf("Error: Invalid parameters!\n"
-          );
-    return 0;
+void errdupopt() {
+  printf("Error: Duplicated option detected!\n");
 }
 
-int errdupopt()
-{
-    printf("Error: Duplicated option detected!\n"
-          );
-    return 0;
+void errmaxarg() {
+  printf("Error: Too many arguments\n");
 }
